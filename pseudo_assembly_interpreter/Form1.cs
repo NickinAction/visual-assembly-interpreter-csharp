@@ -23,7 +23,7 @@ namespace pseudo_assembly_interpreter
             for (int i = 0; i < 16; i++)
             {
                 this.register_labels[i] = new System.Windows.Forms.Label();
-                this.flowLayoutPanel1.Controls.Add(this.register_labels[i]);
+                this.RegisterPanel.Controls.Add(this.register_labels[i]);
 
                 this.register_labels[i].AutoSize = true;
                 this.register_labels[i].Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -37,14 +37,27 @@ namespace pseudo_assembly_interpreter
             }
         }
 
-        private void execute_button_clicked(object sender, EventArgs e)
-        {
-            Console.Out.WriteLine("Execute Button was Clicked");
-        }
-
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void execute_button_Click(object sender, EventArgs e)
+        {
+            Console.Out.WriteLine("Execute Button was Clicked");
+
+            List<string> codeLines = new List<string>();
+
+            foreach (string line in UserInput.Lines)
+            {
+                if (!string.IsNullOrWhiteSpace(line))
+                {
+                    codeLines.Add(line);
+                    Console.Out.WriteLine(line);
+                }
+            }
+
+            ///Console.Out.WriteLine(inputString);
         }
     }
 }
