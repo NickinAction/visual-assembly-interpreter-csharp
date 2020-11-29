@@ -14,6 +14,7 @@ namespace pseudo_assembly_interpreter
     {
         public Form1()
         {
+            OS os = new OS();
             InitializeComponent();
         }
 

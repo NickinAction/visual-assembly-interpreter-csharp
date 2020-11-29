@@ -1,4 +1,5 @@
-pseudo_assembly_interpreter/bin/
-pseudo_assembly_interpreter/obj/
-.git/
-.vs/
+*/bin/
+*/obj/
+*/.git/
+*.vs/
+packages/
