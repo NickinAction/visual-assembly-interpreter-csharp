@@ -12,9 +12,9 @@ namespace pseudo_assembly_interpreter
 {
     public partial class Form1 : Form
     {
+        OS os = new OS();
         public Form1()
         {
-            OS os = new OS();
             InitializeComponent();
         }
 
@@ -54,11 +54,11 @@ namespace pseudo_assembly_interpreter
                 if (!string.IsNullOrWhiteSpace(line))
                 {
                     codeLines.Add(line);
-                    Console.Out.WriteLine(line);
+                    //Console.Out.WriteLine(line);
                 }
             }
 
-            ///Console.Out.WriteLine(inputString);
+            os.process_program(codeLines);            
         }
     }
 }
