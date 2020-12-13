@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 namespace pseudo_assembly_interpreter
 {
     static class consts {
+
     }
 }

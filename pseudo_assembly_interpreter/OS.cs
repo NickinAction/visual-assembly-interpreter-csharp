@@ -42,17 +42,20 @@ namespace pseudo_assembly_interpreter {
         }
 
         public void process_program(List<string> codeLines) {
-            var operands = preprocess_program(codeLines);
+            var lineFragments = preprocess_program(codeLines);
 
             for (int i = 0; i < codeLines.Count; i++) {
                 if (codeLines[i] == Parser.MARKER_LINE) continue;
+                Command temp = get_command(lineFragments[i]);
 
-                //get_register_indices(operands) ... TODO
+            }
+            for (int i = 0; i < codeLines.Count; i++) {
+                if (codeLines[i] == Parser.MARKER_LINE) continue;
 
                 //process_command(operands[i]) ... TODO
 
             }
-            
+
         }
     }
 }

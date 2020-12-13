@@ -43,10 +43,7 @@ namespace pseudo_assembly_interpreter
 
         }
 
-        private void execute_button_Click(object sender, EventArgs e)
-        {
-            Console.Out.WriteLine("Execute Button was Clicked");
-
+        private void execute_button_Click(object sender, EventArgs e) {
             List<string> codeLines = new List<string>();
 
             foreach (string line in UserInput.Lines)
