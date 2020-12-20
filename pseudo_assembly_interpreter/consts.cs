@@ -8,5 +8,8 @@ namespace pseudo_assembly_interpreter
 {
     static class consts {
 
+        static public List<string> valid_commands = new List<string> { "add" };
+
+
     }
 }
