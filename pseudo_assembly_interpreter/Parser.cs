@@ -9,8 +9,8 @@ using System.Collections;
 namespace pseudo_assembly_interpreter {
     public class Parser {
 
-        
 
+        
         public static string remove_surrounding_spaces(string line) {
             // (^\\s+|\\s+$)
             string temp = Regex.Replace(line, "(^\\s+|\\s+$)", "");
@@ -26,27 +26,33 @@ namespace pseudo_assembly_interpreter {
         }
 
         public static int get_reg_num (string reg) {
+            Console.WriteLine(reg);
             return Int32.Parse(reg.Substring(1));
         }
 
-        public static BitArray val_to_bitarray (string str, char number_indicator) {
-            string s = Convert.ToString(Int32.Parse(str.Substring(1)), 2);
+        public static BitArray val_to_bitarray (string str) {
+            string s = Convert.ToString(Int32.Parse(str.Substring(1)), 2); //converting dec string to binary in and then back to string 
 
-            s = s.PadLeft(32, '0'); //padding zeroes to make string length be 32 
+            char[] charArray = s.PadLeft(32, '0').ToCharArray();
+            charArray.Reverse();
+            s = new String(charArray); //padding zeroes to make string length be 32 
             var temp = new BitArray(s.Select(c => c == '1').ToArray());
             return temp;
         }
 
+        /// <summary>
+        /// Builds a <c>Command</c> from a <c>List&lt;string&gt;</c> of line fragments the user command consists of.
+        /// </summary>
+        /// <param name="lineFragments"></param>
+        /// <returns></returns>
         public static Command get_command(List<string> lineFragments) {
             if (lineFragments.Count == 0) {
                 throw new ArgumentException("line frangments number can't be zero");
             }
 
             Command return_command = new Command();
+            // Initialises an empty Command to be filled later.
 
-            //string instruction = (from potential_command in consts.valid_commands
-              //                where potential_command.Equals(lineFragments[0]) 
-                //              select potential_command).FirstOrDefault();
             string instruction = consts.valid_commands
                 .FirstOrDefault(potential_command => potential_command
                 .Equals(lineFragments[0]));
@@ -57,85 +63,62 @@ namespace pseudo_assembly_interpreter {
                 return_command.condition = "";
             }
             else { //removing potential condition from instruction and comparing again
+                int instruction_condition_cutoff = lineFragments[0].Length - 2;
                 instruction = consts.valid_commands
                     .FirstOrDefault(potential_command => potential_command
-                    .Equals(lineFragments[0].Substring(0, lineFragments[0].Length-2)));
+                    .Equals(lineFragments[0].Substring(0, instruction_condition_cutoff)));
 
                 if (!string.IsNullOrEmpty(instruction)) {
-                    return_command.instruction = lineFragments[0]; // adds instruction to command struct, no condition
-                    return_command.condition = lineFragments[0].Substring(lineFragments[0].Length - 2);
+                    return_command.instruction = instruction; // adds instruction to command struct, no condition
+                    return_command.condition = lineFragments[0].Substring(instruction_condition_cutoff);
                 }
                 else throw new ArgumentException("invalid or unimplemented command or condition");
             }
 
+
+
             if(return_command.instruction.Equals("b")) { // if instruction is branch (b), returning marker 
-                return_command.marker = lineFragments[1];
+                return_command = new Command("b", return_command.condition, lineFragments[1]);
             }
             else {
                 //adding reciever as integer (removing the r)
 
                 return_command.receiver = get_reg_num(lineFragments[1]);
 
+                // Determining whether there is a middle operand in the input
 
-                if (lineFragments.Count == 3) {
-
-
-                }
-                else if (lineFragments.Count == 4) { //middle is denoted explicitly 
+                // will shift future references to lineFragments in case there is a middle operand,
+                int index_shifter = 0; //used to avoid similar if statements
+                if (lineFragments.Count == 4) { //middle is denoted explicitly 
                     return_command.middle = get_reg_num(lineFragments[2]);
-
-                    //figure out sender
-
-                    char number_indicator = consts.number_indicators
-                        .FirstOrDefault(potential_num_indicator => potential_num_indicator
-                        .Equals(lineFragments[3].Substring(0, 1)));
-
-                    if (number_indicator == '\0') {
-                        // sender is a value
-                        //really weird and long conversion from number in a string to a binary number in string form
-                        string s = Convert.ToString(Int32.Parse(lineFragments[2].Substring(1)), 2); 
-
-                        s = s.PadLeft(32, '0'); //padding zeroes to make string length be 32 
-                        var temp = new BitArray(s.Select(c => c == '1').ToArray());
-
-                        return_command.sender_value = temp;
-
-                    }
-                    else {
-                        //sender is a register
-
-                    }
-
+                    index_shifter = 1;
+                } 
+                else {
+                    return_command.middle = return_command.receiver;
                 }
-            }
+                
+                //figure out sender
 
+                char number_indicator = consts.number_indicators
+                    .FirstOrDefault(potential_num_indicator => potential_num_indicator
+                    .Equals(lineFragments[2 + index_shifter].Substring(0, 1)));
 
-
-            if (lineFragments.Count == 2) {
-                return_command.
-            }
-            return_command.receiver = Int32.Parse(lineFragments[1].Substring(1)); // adds reciever, an operand that is always present, to the struct
-            if(lineFragments.Count == 4) { 
-                // if 
-                return_command.middle = Int32.Parse(lineFragments[2].Substring(1));
-            }
-            else {
-                if(lineFragments[2].Substring(0,1).Equals('#')) {
-                    string s = Convert.ToString(Int32.Parse(lineFragments[2].Substring(1)), 2);
-                    s = s.PadLeft(32, '0');
-
-                    return_command.sender_value = ;
+                if (number_indicator == '\0') {
+                    // sender is a value
+                    return_command.sender_value = val_to_bitarray(lineFragments[2 + index_shifter]);
                 }
                 else {
-
+                    //sender is a register
+                    return_command.sender_reg = get_reg_num(lineFragments[2 + index_shifter]);
                 }
+
             }
-            
-            return_command.
+
             return return_command;
         }
 
         public static string MARKER_LINE = "MARKER_LINE";
-        public static string NO_MARKER = "NO_MARKER";
+        public static string NO_MARKER = "";
+        public static int NO_REGISTER = -1;
     }
 }

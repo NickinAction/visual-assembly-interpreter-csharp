@@ -46,7 +46,7 @@ namespace pseudo_assembly_interpreter {
 
             for (int i = 0; i < codeLines.Count; i++) {
                 if (codeLines[i] == Parser.MARKER_LINE) continue;
-                Command temp = get_command(lineFragments[i]);
+                Command temp = Parser.get_command(lineFragments[i]);
 
             }
             for (int i = 0; i < codeLines.Count; i++) {
