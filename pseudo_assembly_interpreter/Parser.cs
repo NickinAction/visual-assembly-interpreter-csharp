@@ -26,16 +26,15 @@ namespace pseudo_assembly_interpreter {
         }
 
         public static int get_reg_num (string reg) {
-            Console.WriteLine(reg);
             return Int32.Parse(reg.Substring(1));
         }
 
         public static BitArray val_to_bitarray (string str) {
             string s = Convert.ToString(Int32.Parse(str.Substring(1)), 2); //converting dec string to binary in and then back to string 
 
-            char[] charArray = s.PadLeft(32, '0').ToCharArray();
-            charArray.Reverse();
-            s = new String(charArray); //padding zeroes to make string length be 32 
+            char[] charArray = s.PadLeft(32, '0').ToCharArray(); //padding zeroes to make string length be 32 
+            Array.Reverse(charArray);
+            s = new String(charArray);
             var temp = new BitArray(s.Select(c => c == '1').ToArray());
             return temp;
         }
@@ -84,6 +83,7 @@ namespace pseudo_assembly_interpreter {
                 //adding reciever as integer (removing the r)
 
                 return_command.receiver = get_reg_num(lineFragments[1]);
+                return_command.marker = NO_MARKER;
 
                 // Determining whether there is a middle operand in the input
 
@@ -103,13 +103,19 @@ namespace pseudo_assembly_interpreter {
                     .FirstOrDefault(potential_num_indicator => potential_num_indicator
                     .Equals(lineFragments[2 + index_shifter].Substring(0, 1)));
 
-                if (number_indicator == '\0') {
+                Console.WriteLine(number_indicator);
+
+                if (number_indicator == '\0') { //default char value
                     // sender is a value
                     return_command.sender_value = val_to_bitarray(lineFragments[2 + index_shifter]);
+                    return_command.sender_reg = NO_REGISTER;
+                    Console.WriteLine("value");
                 }
                 else {
                     //sender is a register
                     return_command.sender_reg = get_reg_num(lineFragments[2 + index_shifter]);
+                    return_command.sender_value = null;
+                    Console.WriteLine("register");
                 }
 
             }

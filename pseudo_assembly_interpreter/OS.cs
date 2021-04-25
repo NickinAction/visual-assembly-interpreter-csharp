@@ -20,7 +20,7 @@ namespace pseudo_assembly_interpreter {
             for (int i = 0; i < codeLines.Count; i++) {
                 string line = codeLines[i];
 
-                MatchCollection matches = Regex.Matches(line, "[^\\s\\,]+");
+                MatchCollection matches = Regex.Matches(line, "[^\\s\\,\t]+");
                 // creating a regex match of words in between spaces and commas
 
                 operands.Add(new List<string>());
