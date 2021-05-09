@@ -1,20 +1,23 @@
-﻿using System;
+﻿using pseudo_assembly_interpreter.CPU;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace pseudo_assembly_interpreter {
-    class VM {
+    public class VM {
         OS os;
+        RegisterMemory registerMemory;
         public VM () {
-            CU cu = new CU();
-            // ALU
-            os = new OS(cu);
+            ALU alu = new ALU(registerMemory);
+            CU cu = new CU(registerMemory, alu);
+            registerMemory = new RegisterMemory();
+            os = new OS(cu, registerMemory);
         }
 
-        void run_program(List<string> codelines) {
-            os.process_program(codeLines);
+        public void run_program(List<string> codelines) {
+            os.process_program(codelines);
         }
 
 

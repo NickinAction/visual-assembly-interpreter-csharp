@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CPU\ALU.cs" />
     <Compile Include="CPU\Command.cs" />
     <Compile Include="consts.cs" />
     <Compile Include="CPU\CU.cs" />

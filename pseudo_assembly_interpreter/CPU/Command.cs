@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 
-namespace pseudo_assembly_interpreter {
+namespace pseudo_assembly_interpreter.CPU {
     /// <summary>Struct <c>Command</c> is used to send a processor instruction
     /// for <c>OS</c> to <c>Processor</c>. Reduntant variables assume default values when not used.
     /// <example> Command(string instruction) </example></summary>

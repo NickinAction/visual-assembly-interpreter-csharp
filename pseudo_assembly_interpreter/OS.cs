@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
-namespace pseudo_assembly_interpreter {
+namespace pseudo_assembly_interpreter.CPU {
     public class OS {
         CU cu;
-        public OS (CU cu) {
+        RegisterMemory registerMemory;
+        public OS (CU cu, RegisterMemory regMem) {
             this.cu = cu;
+            this.registerMemory = regMem;
         }
 
         public (List<Command>, Dictionary<string, int>) preprocess_program(List<string> codeLines) {

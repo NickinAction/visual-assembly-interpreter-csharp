@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace pseudo_assembly_interpreter
-{
+namespace pseudo_assembly_interpreter.CPU {
     public class RegisterMemory
     {
         public RegisterMemory()
         {
-            CPSR.register = new BitArray(REGISTER_SIZE, false);
+            CPSR = new BitArray(REGISTER_SIZE, false);
+            //Accumulator = new BitArray(REGISTER_SIZE, false);
 
-             registers = new List<BitArray>();
+            registers = new List<BitArray>();
 
             for (int i = 0; i < N_REGISTERS; i++)
             {
@@ -34,18 +34,19 @@ namespace pseudo_assembly_interpreter
         private List<BitArray> registers;
         const int N_REGISTERS = 16;
         public BitArray CPSR;
+        public int accumulator = 0;
         public const int REGISTER_SIZE = 32;
 
-        bool CPSR_N() {
+        public bool CPSR_N() {
             return CPSR[REGISTER_SIZE - 1];
         }
-        bool CPSR_Z() {
+        public bool CPSR_Z() {
             return CPSR[REGISTER_SIZE - 2];
         }
-        bool CPSR_C() {
+        public bool CPSR_C() {
             return CPSR[REGISTER_SIZE - 3];
         }
-        bool CPSR_V() {
+        public bool CPSR_V() {
             return CPSR[REGISTER_SIZE - 4];
         }
     }

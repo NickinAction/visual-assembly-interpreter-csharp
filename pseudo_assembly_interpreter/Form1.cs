@@ -12,9 +12,12 @@ namespace pseudo_assembly_interpreter
 {
     public partial class Form1 : Form
     {
+        public VM vm;
         public Form1()
         {
             InitializeComponent();
+
+            vm = new VM();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -55,7 +58,7 @@ namespace pseudo_assembly_interpreter
                 }
             }
 
-            VM.run_program(codelines);
+            vm.run_program(codeLines);
             // pass the list of strings to process_program()           
         }
     }
