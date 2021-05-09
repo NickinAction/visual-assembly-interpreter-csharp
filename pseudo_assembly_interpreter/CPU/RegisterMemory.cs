@@ -11,7 +11,7 @@ namespace pseudo_assembly_interpreter
     {
         public RegisterMemory()
         {
-            CPSR = new BitArray(REGISTER_SIZE, false);
+            CPSR.register = new BitArray(REGISTER_SIZE, false);
 
              registers = new List<BitArray>();
 
@@ -32,8 +32,21 @@ namespace pseudo_assembly_interpreter
         }
 
         private List<BitArray> registers;
-        private BitArray CPSR;
         const int N_REGISTERS = 16;
+        public BitArray CPSR;
         public const int REGISTER_SIZE = 32;
+
+        bool CPSR_N() {
+            return CPSR[REGISTER_SIZE - 1];
+        }
+        bool CPSR_Z() {
+            return CPSR[REGISTER_SIZE - 2];
+        }
+        bool CPSR_C() {
+            return CPSR[REGISTER_SIZE - 3];
+        }
+        bool CPSR_V() {
+            return CPSR[REGISTER_SIZE - 4];
+        }
     }
 }

@@ -7,15 +7,20 @@ using System.Text.RegularExpressions;
 
 namespace pseudo_assembly_interpreter {
     public class OS {
-        public OS () {
-
+        CU cu;
+        public OS (CU cu) {
+            this.cu = cu;
         }
 
-        public List<List<string>> preprocess_program(List<string> codeLines) {
+        public (List<Command>, Dictionary<string, int>) preprocess_program(List<string> codeLines) {
 
             Dictionary<string, int> markers = new Dictionary<string, int>();
 
-            List<List<string>> operands = new List<List<string>>();
+            List<Command> commands = new List<Command>();
+
+            int lineN = 0;
+
+            List<string> temp = new List<string>();
 
             for (int i = 0; i < codeLines.Count; i++) {
                 string line = codeLines[i];
@@ -23,36 +28,38 @@ namespace pseudo_assembly_interpreter {
                 MatchCollection matches = Regex.Matches(line, "[^\\s\\,\t]+");
                 // creating a regex match of words in between spaces and commas
 
-                operands.Add(new List<string>());
+                //operands.Add(new List<string>()); 
 
                 // collect all the found words into a list of operands
                 foreach (Match match in matches) {
-                    operands[i].Add(match.Value);
+                    temp.Add(match.Value);
                 } // todo: operands
 
                 //Parser.remove_surrounding_spaces(line); 
-                string marker_check = Parser.collect_marker(operands[i][0]);
+                string marker_check = Parser.get_marker(temp[0]);
+
                 if (marker_check != Parser.NO_MARKER) {
-                    markers.Add(marker_check, i);
+
+                    markers.Add(marker_check, lineN);
+                }
+                else {
+                    commands.Add(Parser.get_command(temp));
+                    lineN++;
                 }
 
             }
 
-            return operands;
+            //tuple
+            return (commands, markers);
         }
 
         public void process_program(List<string> codeLines) {
-            var lineFragments = preprocess_program(codeLines);
+            (var commands, var markers) = preprocess_program(codeLines);
 
-            for (int i = 0; i < codeLines.Count; i++) {
-                if (codeLines[i] == Parser.MARKER_LINE) continue;
-                Command temp = Parser.get_command(lineFragments[i]);
+            
+            for (int i = 0; i < commands.Count;) {
 
-            }
-            for (int i = 0; i < codeLines.Count; i++) {
-                if (codeLines[i] == Parser.MARKER_LINE) continue;
-
-                //process_command(operands[i]) ... TODO
+                i = execute_command(commands[i], markers, i);
 
             }
 

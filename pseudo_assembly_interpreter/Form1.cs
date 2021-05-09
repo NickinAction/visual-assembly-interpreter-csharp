@@ -12,7 +12,6 @@ namespace pseudo_assembly_interpreter
 {
     public partial class Form1 : Form
     {
-        OS os = new OS();
         public Form1()
         {
             InitializeComponent();
@@ -44,18 +43,20 @@ namespace pseudo_assembly_interpreter
         }
 
         private void execute_button_Click(object sender, EventArgs e) {
-            List<string> codeLines = new List<string>();
+
+            List<string> codeLines = new List<string>(); // list of strings as lines in UserInput
 
             foreach (string line in UserInput.Lines)
             {
-                if (!string.IsNullOrWhiteSpace(line))
+                if (!string.IsNullOrWhiteSpace(line)) // check for empty line
                 {
                     codeLines.Add(line);
                     //Console.Out.WriteLine(line);
                 }
             }
 
-            os.process_program(codeLines);            
+            VM.run_program(codelines);
+            // pass the list of strings to process_program()           
         }
     }
 }

@@ -16,6 +16,10 @@ namespace pseudo_assembly_interpreter {
         public string marker;
         public BitArray sender_value;
         public string condition;
+        public char type;
+       
+
+
         public Command(string instruction, string condition, int receiver, int middle, int sender_reg, string marker, BitArray sender_value) {
             this.instruction = instruction;
             this.condition = condition;
@@ -24,6 +28,7 @@ namespace pseudo_assembly_interpreter {
             this.sender_reg = sender_reg;
             this.marker = marker;
             this.sender_value = sender_value;
+            this.type = 'n';
         }
 
         public Command (string instruction, string condition, string marker) {
@@ -34,6 +39,7 @@ namespace pseudo_assembly_interpreter {
             this.sender_reg = Parser.NO_REGISTER;
             this.marker = marker;
             this.sender_value = null;
+            this.type = 'b';
         }
     }
 }

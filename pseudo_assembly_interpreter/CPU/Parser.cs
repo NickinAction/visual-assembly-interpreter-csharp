@@ -16,7 +16,7 @@ namespace pseudo_assembly_interpreter {
             string temp = Regex.Replace(line, "(^\\s+|\\s+$)", "");
             return temp;
         }
-        public static string collect_marker (string line) {
+        public static string get_marker (string line) {
             if (line.Last() == ':') {
                 string temp = line.Substring(0, line.Length - 1);
                 line = MARKER_LINE;
