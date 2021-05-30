@@ -45,6 +45,8 @@ namespace pseudo_assembly_interpreter
 
         }
 
+        
+
         private void execute_button_Click(object sender, EventArgs e) {
 
             List<string> codeLines = new List<string>(); // list of strings as lines in UserInput
@@ -58,7 +60,7 @@ namespace pseudo_assembly_interpreter
                 }
             }
 
-            vm.run_program(codeLines);
+            vm.run_program(codeLines, this.register_labels);
             // pass the list of strings to process_program()           
         }
     }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Collections;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace pseudo_assembly_interpreter.CPU {
             this.alu = alu;
         }
 
-        int execute_command(Command command, Dictionary<string, int> markers, int i) {
+        public int execute_command(Command command, Dictionary<string, int> markers, int i) {
 
             if (!check_condition(command.condition)) {
                 return i + 1; // skip command
@@ -68,10 +69,10 @@ namespace pseudo_assembly_interpreter.CPU {
             if (condition == "") return true;
 
             if (condition == "eq") {
-                return registerMemory.CPSR_Z();
+                return registerMemory.CPSR_Z;
             }
             else if (condition == "ne") {
-                return !registerMemory.CPSR_Z();
+                return !registerMemory.CPSR_Z;
             }
             else {
                 throw new NotImplementedException("condition not implemented");

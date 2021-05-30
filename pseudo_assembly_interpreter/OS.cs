@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using pseudo_assembly_interpreter.CPU;
 
 namespace pseudo_assembly_interpreter.CPU {
     public class OS {
@@ -61,9 +62,11 @@ namespace pseudo_assembly_interpreter.CPU {
             
             for (int i = 0; i < commands.Count;) {
 
-                i = execute_command(commands[i], markers, i);
+                i = cu.execute_command(commands[i], markers, i);
 
             }
+
+
 
         }
     }
