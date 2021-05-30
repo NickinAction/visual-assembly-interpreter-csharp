@@ -23,7 +23,7 @@ namespace pseudo_assembly_interpreter.CPU {
 
             int lineN = 0;
 
-            List<string> temp = new List<string>();
+            List<string> command_splitted = new List<string>();
 
             for (int i = 0; i < codeLines.Count; i++) {
                 string line = codeLines[i];
@@ -34,19 +34,20 @@ namespace pseudo_assembly_interpreter.CPU {
                 //operands.Add(new List<string>()); 
 
                 // collect all the found words into a list of operands
+                command_splitted.Clear();
                 foreach (Match match in matches) {
-                    temp.Add(match.Value);
+                    command_splitted.Add(match.Value);
                 } // todo: operands
 
                 //Parser.remove_surrounding_spaces(line); 
-                string marker_check = Parser.get_marker(temp[0]);
+                string marker_check = Parser.get_marker(line);
 
                 if (marker_check != Parser.NO_MARKER) {
 
                     markers.Add(marker_check, lineN);
                 }
                 else {
-                    commands.Add(Parser.get_command(temp));
+                    commands.Add(Parser.get_command(command_splitted));
                     lineN++;
                 }
 

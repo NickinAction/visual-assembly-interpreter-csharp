@@ -96,16 +96,18 @@ namespace pseudo_assembly_interpreter.CPU {
                 else {
                     return_command.middle = return_command.receiver;
                 }
-                
+
                 //figure out sender
 
-                char number_indicator = consts.number_indicators
-                    .FirstOrDefault(potential_num_indicator => potential_num_indicator
-                    .Equals(lineFragments[2 + index_shifter].Substring(0, 1)));
+                //char number_indicator = consts.number_indicators
+                //  .FirstOrDefault(potential_num_indicator => potential_num_indicator
+                //.Equals(lineFragments[2 + index_shifter].Substring(0, 1)));
 
-                Console.WriteLine(number_indicator);
+                //Console.WriteLine(number_indicator);
+                char potential_num_indicator = lineFragments[2 + index_shifter].Substring(0, 1)[0];
 
-                if (number_indicator == '\0') { //default char value
+                //if (number_indicator == '\0') { //default char value
+                if (potential_num_indicator != 'r') { 
                     // sender is a value
                     return_command.sender_value = val_to_bitarray(lineFragments[2 + index_shifter]);
                     return_command.sender_reg = NO_REGISTER;
